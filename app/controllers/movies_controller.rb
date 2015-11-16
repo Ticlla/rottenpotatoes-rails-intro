@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
     @ratings_filtered=@query.respond_to?(:keys)? params[:ratings].keys : @query;
     @ratings_filtered =(not session[:ratings_filtered].nil?) ? session[:ratings_filtered] : @ratings_filtered;
     
-    @movies = Movie.order(@criteria_link).where(rating: @query);
+    @movies = Movie.order(@criteria_link).where(rating: @ratings_filtered);
     
   end
 
