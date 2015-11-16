@@ -14,6 +14,7 @@ class MoviesController < ApplicationController
     @all_ratings= Movie.ratings
     @criteria =params[:sort]
     @query = params[:ratings].nil?  ?  @all_ratings : params[:ratings].keys;
+    @ratings_filtered=@query.respond_to?(:keys)? params[:ratings].keys : @query;
     @movies = Movie.order(@criteria).where(rating: @query);
   end
 
