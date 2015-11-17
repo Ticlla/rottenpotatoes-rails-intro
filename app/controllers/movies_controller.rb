@@ -11,15 +11,24 @@ class MoviesController < ApplicationController
   end
 
   def index
+    redirect=false;
     @all_ratings= Movie.ratings
-    @sort =params[:sort].nil? ? session[:sort] :params[:sort];
-    @ratings = params[:ratings].nil?  ?  session[:ratings]: params[:ratings].keys;
+    @sort =session[:sort].nil? ? params[:sort] : session[:sort];
+    @sort =params[:sort].nil? ? @sort : params[:sort];
+    params[:sort]=@sort
+    @ratings = session[:ratings].nil?  ?  params[:ratings] : session[:ratings]   ;
+    @ratings = params[:ratings].nil? ? @ratings : params[:ratings] ;
   #  @ratings = @ratings.nil? ? @all_ratings : @ratings;
+    if @ratings.nil? then
+      @ratings={};
+      @all_ratings.each{|x| @ratings[x]=1}
+      redirect = true
+    end
     
-    redirect_to(sort: @sort, ratings: @all_ratings) if @ratings.nil?; 
-    @movies = Movie.order(@sort).where(rating: @ratings);
+    redirect_to(sort: 'title', ratings: @ratings) if redirect
+    @movies = Movie.order(@sort).where(rating: @ratings.keys);
     session[:sort]=@sort
-    session[:ratings]=@ratings.respond_to?(:keys) ? @ratings.keys : @ratings
+    session[:ratings]=@ratings
   end
 
   def new

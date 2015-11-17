@@ -6,6 +6,14 @@
     = rating 
     = check_box_tag "ratings[#{rating}]",'1',@ratings.include?(rating), :id => "ratings_#{rating}"
   = submit_tag 'Refresh', :id => 'ratings_submit'
+-# %h1=@all_ratings 
+-# %h1=@all_ratings.class
+-# %h1=session[:ratings] 
+-# %h1=session[:ratings].class
+-# %h1=params[:ratings] 
+-# %h1=params[:ratings].class
+-# %h1=session[:sort]
+-# %h1=params[:sort]
 
 %table#movies
   %thead
