@@ -15,14 +15,20 @@ class MoviesController < ApplicationController
     @all_ratings= Movie.ratings
     @sort =session[:sort].nil? ? params[:sort] : session[:sort];
     @sort =params[:sort].nil? ? @sort : params[:sort];
-    params[:sort]=@sort
+    params[:sort]=@sort;
     @ratings = session[:ratings].nil?  ?  params[:ratings] : session[:ratings]   ;
     @ratings = params[:ratings].nil? ? @ratings : params[:ratings] ;
+    #params[:ratings]=@ratings;
   #  @ratings = @ratings.nil? ? @all_ratings : @ratings;
     if @ratings.nil? and @sort.nil? then
       @ratings={};
       @all_ratings.each{|x| @ratings[x]=1}
       redirect = true
+    end
+    
+    if params[:ratings].nil? then
+      redirect =true;
+      params[:ratings]=@ratings
     end
     
     redirect_to(sort: @sort, ratings: @ratings) if redirect
