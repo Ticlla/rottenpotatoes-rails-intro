@@ -19,13 +19,13 @@ class MoviesController < ApplicationController
     @ratings = session[:ratings].nil?  ?  params[:ratings] : session[:ratings]   ;
     @ratings = params[:ratings].nil? ? @ratings : params[:ratings] ;
   #  @ratings = @ratings.nil? ? @all_ratings : @ratings;
-    if @ratings.nil? then
+    if @ratings.nil? and @sort.nil? then
       @ratings={};
       @all_ratings.each{|x| @ratings[x]=1}
       redirect = true
     end
     
-    redirect_to(sort: 'title', ratings: @ratings) if redirect
+    redirect_to(sort: @sort, ratings: @ratings) if redirect
     @movies = Movie.order(@sort).where(rating: @ratings.keys);
     session[:sort]=@sort
     session[:ratings]=@ratings
